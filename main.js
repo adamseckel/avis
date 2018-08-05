@@ -1,16 +1,66 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const electron = require('electron')
+const {app, BrowserWindow, globalShortcut} = electron
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let toggled = false
+const totalWidth = 400 + 40 + 40
+let timeout;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
-
+  const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
+  console.log(width, height)
+  let side = 'right'
+  
+  mainWindow = new BrowserWindow({width: totalWidth, height: height - 40, frame: false, transparent:true, webPreferences: {}})
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('./index.html')
+  mainWindow.setAlwaysOnTop(true, 'screensaver', 2)
+  // mainWindow.setMovable(false)
+  mainWindow.setVisibleOnAllWorkspaces(true)
+  mainWindow.setResizable(false)
+  mainWindow.setVisibleOnAllWorkspaces(true)
+  mainWindow.setPosition(width + 500, 40, true)
+  
+  const ret = globalShortcut.register('CommandOrControl+Shift+T', () => {
+    toggled = !toggled
+    let xOff = side === 'right' ? width - totalWidth : 0
+    let xOn = side === 'right' ? width + totalWidth : -550
+
+    if (toggled) {
+      mainWindow.setPosition(xOff, 40, true)
+    } else {
+      mainWindow.setPosition(xOn, 40, true)
+    }
+  })
+
+  console.log(electron.screen.getAllDisplays())
+  
+  
+  function reset() {
+    clearTimeout(timeout)
+    if (!toggled) return
+
+    timeout = setTimeout(() => {
+      let [x, y] = mainWindow.getPosition()
+      // console.log(x, width/2)
+      if (x + 200 > width / 2) {
+        side = 'right'
+        mainWindow.setPosition(width - totalWidth, 40, true)
+      } else {
+        side = 'left'
+        mainWindow.setPosition(0, 40, true)
+      }
+    }, 200)
+  }
+  mainWindow.on('moved', () => {
+    // console.log('moved!!', mainWindow.getPosition())
+    reset()
+  })
+
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -21,7 +71,24 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null
+    clearTimeout(timeout)
+    globalShortcut.unregister('CommandOrControl+Shift+T')
+
+    // Unregister all shortcuts.
+    globalShortcut.unregisterAll()
   })
+
+  // setTimeout(() => {
+  //   mainWindow.setBounds({x: - 400 - 20, y: 40, width: 400, height: height - 80}, true)
+
+  // }, 1000)
+
+  // setTimeout(() => {
+  //   mainWindow.setContentBounds({x: width + 1000 - 20, y: 40, width: 400, height: height - 80}, true)
+
+  // }, 3000)
+
+
 }
 
 // This method will be called when Electron has finished
@@ -31,6 +98,8 @@ app.on('ready', createWindow)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
+  clearTimeout(timeout)
+
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
