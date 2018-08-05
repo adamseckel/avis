@@ -19,7 +19,6 @@ function createWindow () {
   // and load the index.html of the app.
   mainWindow.loadFile('./index.html')
   mainWindow.setAlwaysOnTop(true, 'screensaver', 2)
-  // mainWindow.setMovable(false)
   mainWindow.setVisibleOnAllWorkspaces(true)
   mainWindow.setResizable(false)
   mainWindow.setVisibleOnAllWorkspaces(true)
