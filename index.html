@@ -7,8 +7,8 @@
 </head>
 
 <body style="position:relative; margin:0;">
-  <div style="-webkit-app-region: drag; position: absolute;z-index: 1;left: 40px;right: 40px;height: 20px;top: 0px;">
-    <div style="position: absolute;width: 100px;height: 6px;left: 0px;right: 0;top: 14px;overflow: hidden;margin: 0 auto;border-radius: 999px;">
+  <div style="-webkit-app-region: drag; position: absolute;z-index: 1;left: 40px;right: 40px;height: 40px;top: 0px;">
+    <div style="position: absolute;width: 100px;height: 6px;left: 0px;right: 0;top: 20px;overflow: hidden;margin: 0 auto;border-radius: 999px;">
       <div style="width: 200%;left: -50px;position: relative;height: 6px;background-color: rgba(255,255,255, 0.5);"></div>
     </div>
   </div>
@@ -33,11 +33,11 @@
   <script>
     var webview = document.getElementById('twitter');
     webview.addEventListener('dom-ready', function () {
-      webview.insertCSS('[data-testid="loggedInUserLink"] {display: none !important;} html,body,nav,div {background-color: #000000 !important; border: none !important;} article {border-bottom: 1px solid #242424 !important} nav svg {color: white !important} nav { border-bottom: 1px solid #454545 !important;} span {color: white !important;} a span {color: rgb(27, 149, 224) !important;} [data-testid=fab-tweet] { background-color: white !important; overflow: hidden !important;} aside {background-color: transparent !important;} aside div {background-color: transparent !important;} aside svg {color: black !important;} article > div >  div:nth-child(2) > div > div > div > div > a span {color: white !important;} div { color: #828282 !important;} svg {color: #828282 !important;} article > div > div > div:nth-child(2) > a span {color: #828282 !important;} article > div > div:nth-child(2) > div > div:not([lang]):nth-child(2) a > div > span {color: #828282 !important;} article > div > div:nth-child(2) > div > div:not([lang]):nth-child(2) a > div > span > span {color: rgb(27, 149, 224) !important;} article img {border: 1px solid #454545 !important!;} [aria-label="Explore"], [aria-label="Direct Messages"] {display: none !important; !important;} [aria-label="Compose a Tweet"] div:nth-child(1) {display: none !important;} header{display: none !important;}')
+      webview.insertCSS('[data-testid="loggedInUserLink"] {display: none !important;} html,body,nav,div {background-color: #000000 !important; border: none !important;} article {border-bottom: 1px solid #242424 !important} nav svg {color: white !important} nav { border-bottom: 1px solid #454545 !important;} span {color: white !important;} a span {color: rgb(27, 149, 224) !important;} [data-testid=fab-tweet] { background-color: white !important; overflow: hidden !important;} aside {background-color: transparent !important;} aside div {background-color: transparent !important;} aside svg {color: black !important;} article > div >  div:nth-child(2) > div > div > div > div > a span {color: white !important;} div { color: #828282 !important;} svg {color: #828282 !important;} article > div > div > div:nth-child(2) > a span {color: #828282 !important;} article > div > div:nth-child(2) > div > div:not([lang]):nth-child(2) a > div > span {color: #828282 !important;} article > div > div:nth-child(2) > div > div:not([lang]):nth-child(2) a > div > span > span {color: rgb(27, 149, 224) !important;} article img {border: 1px solid #454545 !important!;} [aria-label="Explore"], [aria-label="Direct Messages"] {display: none !important; !important;} [aria-label="Compose a Tweet"] div:nth-child(1) {display: none !important;}')
     });
     let cont = document.getElementById('container')
-    cont.style.height = window.innerHeight + 'px'
-    webview.style.height = window.innerHeight + 'px'
+    cont.style.height = window.innerHeight - 20 + 'px'
+    webview.style.height = window.innerHeight - 20 + 'px'
   </script>
 </body>
 
